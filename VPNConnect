@@ -1,0 +1,20 @@
+set vpnpw to "PASSWORD"
+set vpnname to "Rackspace VPN"
+
+tell application "System Events"
+	tell current location of network preferences
+		set VPNService to service vpnname
+	end tell
+	
+	connect VPNService
+	
+	repeat until exists (static text 1 of window 1 of application process "UserNotificationCenter" whose name is "Enter your user authentication")
+	end repeat
+	
+	set theWindow to window 1 of application process "UserNotificationCenter"
+	set thePassword to text field 1 of theWindow whose description is "secure text field"
+	set theButton to button 1 of theWindow whose title is "OK"
+	
+	set value of thePassword to vpnpw
+	click theButton
+end tell
